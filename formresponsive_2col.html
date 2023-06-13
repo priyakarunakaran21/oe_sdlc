@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Three Column Layout with Form Fields</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+</head>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    footer {
+      background-color: #ffffff;
+      color: #00080e;
+      padding: 20px;
+      text-align: center;
+      border-top: 1px solid #E8E8E8;
+    }
+    
+    header h1, footer p {
+      margin: 0;
+    }
+    
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    
+    .column {
+      flex-basis: calc(48% - 20px);
+      padding: 10px;
+    }
+    .full-column{
+      flex-basis: 100%;
+      padding:10px;
+    }
+    .control-wrap{
+      display:flex;
+      margin-left: 20px;
+    }
+	.column h2{
+    font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 24px;
+  margin-top:20px;
+  margin-bottom:20px;
+  letter-spacing: 0.5px;
+  color: #595959;
+	}
+    
+    @media (max-width: 767px) {
+      .column {
+        flex-basis: 100%;
+        margin-bottom: 20px;
+      }
+    }
+    
+    .form-field {
+      display: flex;
+      margin-bottom: 10px;
+      justify-content: space-between;
+    }
+    .form-field label {
+      margin-right: 10px;
+    }
+   /* Custom styles for checkboxes */
+   .form-field input[type="checkbox"],
+    .form-field input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .form-field .checkbox-label,
+    .form-field .radio-label {
+      position: relative;
+      display: inline-block;
+      padding-left: 30px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+
+    .form-field .checkbox-label:before{
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      background: url('unchecked.svg')no-repeat center;
+    }
+
+    .form-field .radio-label:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 21px;
+      height: 21px;
+      background: url('unselected.svg')no-repeat center;
+      border-radius: 4px;
+    }
+
+    .form-field .checkbox-label:before {
+      background-color: #fff;
+    }
+
+    .form-field .checkbox-label:after{
+      content: '';
+      position: absolute;
+      display: none;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height:20px;
+      background: url('checked.svg')no-repeat center;
+      border-radius: 2px;
+    }
+    .form-field .radio-label:after {
+      content: '';
+      position: absolute;
+      display: none;
+      top: 0;
+      left: 0;
+      width: 21px;
+      height: 21px;
+      background: url('selected.svg')no-repeat center;
+      border-radius: 2px;
+    }
+
+    .form-field input[type="checkbox"]:checked + .checkbox-label:after,
+    .form-field input[type="radio"]:checked + .radio-label:after {
+      display: block;
+    }
+    
+   
+    /*header css*/
+    header {
+      background-color: #ffffff;
+      color: #fff;
+      height:86px;
+      padding: 10px;
+     
+      align-items: center;
+      border: 1px solid #FFFFFF;
+box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.25);
+
+    }
+    .hcontainer{
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      color: #fff;
+      font-weight: bold;
+      font-size: 24px;
+      text-decoration: none;
+    }
+
+    .support-link {
+      color: #005596;
+      text-decoration: none;
+      font-size: 16px;
+      display: flex;
+    }
+	/*Floating textbox*/
+	 .floating {
+      position: relative;
+	  margin-bottom: 16px;
+    }
+    
+    .floating input,
+    .floating textarea,
+    .floating select {
+      display: block;
+      width: 100%;
+      padding: 26px 12px 16px;
+      background: linear-gradient(0deg, rgba(232, 232, 232, 0.5), rgba(232, 232, 232, 0.5)), #FFFFFF;
+	    border-radius: 10px;
+      transition: all 0.3s ease;
+	    font-family: 'Roboto';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 22px;
+      letter-spacing: 0.5px;
+      border:0.5px solid rgba(118, 118, 118, 0.5);
+      color: #00080e;
+      height:56px;
+    }
+    .floating select{
+      padding: 20px 12px 16px 8px;
+    }
+    .floating textarea {
+      height:98px;
+      resize: none;
+    }
+    .floating label {
+      position: absolute;
+      top: 6px;
+    left: 6px;
+      padding: 10px;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      color: #595959;
+    }
+    
+    .floating input:focus,
+    .floating textarea:focus,
+    .floating select:focus {
+      border-color: #005596;
+    }
+    
+    .floating input:focus + label,
+    .floating textarea:focus + label,
+    .floating input:not(:placeholder-shown) + label,
+    .floating textarea:not(:placeholder-shown) + label
+      {
+      top: -6px;
+    left: 3px;
+    font-size: 12px;
+    color: #595959;
+    /* background: linear-gradient(0deg, rgba(232, 232, 232, 0.5), rgba(232, 232, 232, 0.5)), #FFFFFF;
+    padding: 0 10px 5px; */
+    }
+
+    .floating .custom-select option{
+      padding: 10px;
+    }
+
+.floating .custom-select.selected  + label {
+  top: -6px;
+      left: 3px;
+      font-size: 12px;
+      color: #595959;
+}
+.btn-container{
+  margin-top:40px;
+  display: flex;
+  width:100%;
+  justify-content: center;
+}
+.primary-btn{
+  background: #005594;
+border-radius: 10px;
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 500;
+font-size: 18px;
+line-height: 20px;
+text-align: center;
+color: #FFFFFF;
+height: 56px;
+border:0;
+margin-left: 8px;
+    min-width: 200px;
+}
+.secondary-btn{
+background: #ffffff;
+border: 1px solid #005594;
+border-radius: 10px;
+height: 56px;
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 500;
+font-size: 18px;
+line-height: 20px;
+text-align: center;
+color: #005594;
+margin-right: 8px;
+    min-width: 200px;
+}
+.datetime-wrapper{
+  display: flex;
+}
+
+.datetime-wrapper > div{
+  margin-right: 16px;
+}
+.datetime-wrapper > div:last-child{
+  margin-right: 0;
+}
+.datetime-wrapper #hoursSelect, .datetime-wrapper #minutesSelect {
+min-width: 100px;
+}
+.import a{
+  background: url('add.svg') no-repeat left center;
+  padding-left:26px;
+  text-decoration: none;
+  color: #005596;
+  display: block;
+  margin-top:10px;
+  font-size:16px;
+}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="hcontainer">
+    <a href="#" class="logo"><img src="Logo.png"></a>
+    <a href="#" class="support-link"><img src="call.svg"/>Help / Support</a>
+  </div>
+  </header>
+  
+  <div class="container">
+    <form id="myForm">
+    <main>
+      <div class="column">
+        
+        <h2>Project Requirement:</h2>
+
+        <div class="form-field">
+          <label>Requirement Type</label>
+          <div class="control-wrap">
+          <div>
+            <input type="radio" id="newrequest" name="requirement-type" value="newrequest" checked>
+            <label class="radio-label" for="newrequest">New request</label>
+          </div>
+          <div>
+            <input type="radio" id="changerequest" name="requirement-type" value="changerequest">
+            <label class="radio-label" for="changerequest">Change request</label>
+          </div>
+        </div>
+        </div>
+
+         <div class="floating">
+          <select id="department" name="department" class="custom-select" >
+            <option value="" selected disabled hidden> </option>
+            <option value="healthcare">Healthcare</option>
+            <option value="insurance">Insurance</option>
+            <option value="nursing">Nursing</option>
+          </select>
+          <label for="department">Department</label>
+        </div>
+        <div class="floating">
+          <select id="sub-department" name="sub-department" class="custom-select" >
+            <option value="" selected disabled hidden> </option>
+            <option value="usermanagement">User Management</option>
+            <option value="systemadmin">System Admin</option>
+            <option value="operations">Operations</option>
+            <option value="clinicalservices">Clinical Services</option>
+          </select>
+          <label for="department">Sub-Department</label>
+        </div>
+        <div class="floating">
+          <textarea id="problem-statement" name="problem-statement" placeholder=" "></textarea>
+          <label for="problem-statement">Problem Statement</label>
+        </div>
+        <div class="floating">
+          <textarea id="goals" name="goals" placeholder=" "></textarea>
+          <label for="goals">Objective/Goals</label>
+        </div>
+        <div class="floating">
+          <textarea id="business-value" name="business-value" placeholder=" "></textarea>
+          <label for="business-value">Business Value</label>
+        </div>
+        <div class="floating">
+		      <input type="text" id="budget" name="budget"  placeholder=" " >
+          <label for="budget">Budget</label>
+        </div>
+        <div class="floating">
+		      <input type="text" id="timeline" name="timeline"  placeholder=" " >
+          <label for="timeline">Timeline</label>
+        </div>
+        
+        <div class="floating">
+          <textarea id="additional-notes" name="additional-notes" placeholder=" "></textarea>
+          <label for="additional-notes">Additional Notes</label>
+        </div>
+
+      </div>
+      
+     
+      <div class="column">
+        <h2>User Information:</h2>
+
+        <div class="floating">
+		      <input type="text" id="name" name="name"  placeholder=" " >
+          <label for="name">Name</label>
+        </div>
+
+        <div class="floating">
+          <input type="email" id="email" name="email"  placeholder=" " >
+		      <label for="email">Email</label>
+        </div>
+        <div class="floating">
+          <select id="team" name="team" class="custom-select" >
+            <option value="" selected disabled hidden> </option>
+            <option value="devOps">DevOps</option>
+            <option value="ui">UI</option>
+            <option value="operations">Operations</option>
+            <option value="automation">Automation</option>
+          </select>
+          <label for="team">Team</label>
+        </div>
+
+        <div class="floating">
+          <select id="role" name="role" class="custom-select" >
+            <option value="" selected disabled hidden> </option>
+            <option value="administrator">Administrator</option>
+            <option value="manager">Manager</option>
+            <option value="supervisor">Supervisor</option>
+          </select>
+          <label for="role">Role</label>
+        </div>
+        <h2>Additional Information:</h2>
+        
+        <div class="datetime-wrapper">
+        <div class="floating">
+          <input type="date" id="datepicker" name="requirementsCapturingCallDate" >
+          <label for="datepicker">Follow up call</label>
+        </div>
+        <div class="floating">
+          <select id="hoursSelect" name="hours" class="custom-select" >
+            <option value="" selected disabled hidden></option>
+            <option value="00">00</option>
+            <option value="01">01</option>
+            <option value="02">02</option>
+            <option value="03">03</option>
+            <option value="04">04</option>
+            <option value="05">05</option>
+            <option value="06">06</option>
+            <option value="07">07</option>
+            <option value="08">08</option>
+            <option value="09">09</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+          </select>
+          <label for="hoursSelect">Hrs</label>
+        </div>
+        <div class="floating">
+          <select id="minutesSelect" name="minutes" class="custom-select" >
+            <option value="" selected disabled hidden></option>
+            <option value="00">00</option>
+            <option value="15">15</option>
+            <option value="30">30</option>
+            <option value="45">45</option>
+          </select>
+          <label for="minutesSelect">Mins</label>
+        </div>
+        <div class="floating">
+          <input type="text" id="timezone" name="timezone" placeholder=" ">
+          <label for="timezone">Timezone</label>
+        </div>
+      </div>
+       
+        <div class="floating">          
+          <textarea id="attendees" name="attendees"  placeholder=" " ></textarea>
+		      <label for="attendees">Attendees (Enter email with comma separated)</label>
+        </div>
+        <div class="floating">          
+          <textarea id="additional-comments" name="additional-comments"  placeholder=" " ></textarea>
+		    <label for="additional-comments">Additional Comments</label>
+        </div>
+        <div>
+          <div class="form-field">
+            <label>Do you have any functional requirements?</label>
+            <div class="control-wrap">
+              <div>
+                <input type="radio" id="functionalReqYes" name="function-requirement" value="Yes" >
+                <label class="radio-label" for="functionalReqYes">Yes</label>
+              </div>
+              <div>
+                <input type="radio" id="functionalReqNo" name="function-requirement" value="No" checked>
+                <label class="radio-label" for="functionalReqNo">No</label>
+              </div>
+            </div>
+          </div>
+  
+          <div class="floating" id="functional-inputs" style="display:none;">          
+            <textarea id="functional-inputs-comments" name="functional-inputs-comments"  placeholder=" " ></textarea>
+          <label for="functional-inputs-comments">Functional Requirements</label>
+          </div>
+        </div>
+        <div>
+          <div class="form-field">
+            <label>Do you have any non functional requirements?</label>
+            <div class="control-wrap">
+              <div>
+                <input type="radio" id="nonfunctionalReqYes" name="nonfunction-requirement" value="Yes" >
+                <label class="radio-label" for="nonfunctionalReqYes">Yes</label>
+              </div>
+              <div>
+                <input type="radio" id="nonfunctionalReqNo" name="nonfunction-requirement" value="No" checked>
+                <label class="radio-label" for="nonfunctionalReqNo">No</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="floating" id="nonfunctional-inputs" style="display:none;">          
+            <textarea id="nonfunctional-inputs-comments" name="nonfunctional-inputs-comments"  placeholder=" " ></textarea>
+          <label for="nonfunctional-inputs-comments">Non-Functional Requirements</label>
+          </div>
+          </div>
+  
+          <div>
+          <div class="form-field">
+            <label>Do you have any Technical limitations?</label>
+            <div class="control-wrap">
+              <div>
+                <input type="radio" id="techlimitYes" name="technical-limitation" value="Yes" >
+                <label class="radio-label" for="techlimitYes">Yes</label>
+              </div>
+              <div>
+                <input type="radio" id="techlimitNo" name="technical-limitation" value="No" checked>
+                <label class="radio-label" for="techlimitNo">No</label>
+              </div>
+            </div>
+          </div>
+          <div class="floating" id="tech-limit-input" style="display:none;">          
+            <textarea id="tech-limit-input-comments" name="tech-limit-input-comments"  placeholder=" " ></textarea>
+          <label for="tech-limit-input-comments">Technical limitations</label>
+          </div>
+        </div>
+
+
+        <div class="import" style="display:none">
+          <label>Add supporting documents (if any)</label>
+          <a href="">Add Import</a>
+        </div>
+       
+      </div>
+      <div class="full-column">
+        <div class="btn-container">
+          <input class="secondary-btn" type="button" value="cancel"/><input class="primary-btn" type="submit" value="Submit"/>
+        </div>
+      </div>
+    </main>
+  </form>
+  </div>
+  
+  <footer>
+    <p>© 2020 ActiveHealth Management, Inc. All rights reserved.</p>
+  </footer>
+  <script>
+  const selectElements = document.getElementsByClassName("custom-select");0
+    for (let i = 0; i < selectElements.length; i++) {
+      const selectElement = selectElements[i];
+
+      selectElement.addEventListener('change', function() {
+        if (this.value !== '') {
+          if (!this.classList.contains('selected')) {
+            this.classList.add('selected');
+          }
+        } else {
+          if (this.classList.contains('selected')) {
+            this.classList.remove('selected');
+          }
+        }
+      });
+    }
+
+    // document.addEventListener("DOMContentLoaded", function() {
+    //   document.getElementById("myForm").addEventListener("submit", function(event) {
+    //     event.preventDefault();
+
+    //     var formData = {};
+
+    //     var inputs = this.elements;
+    //     for (var i = 0; i < inputs.length; i++) {
+    //       if (inputs[i].nodeName === "INPUT" || inputs[i].nodeName === "TEXTAREA") {
+    //         formData[inputs[i].name] = inputs[i].value;
+    //       }
+    //     }
+
+    //     var jsonData = JSON.stringify(formData);
+
+    //     console.log(jsonData);
+    //   });
+    // });
+    function submitForm() {
+  var form = document.getElementById('myForm');
+  var formData = new FormData(form);
+  var jsonData = {};
+  var functionalRequirements = [];
+  var nonfunctionalRequirements = [];
+  var technicalLimitation = [];
+
+ 
+   for (var pair of formData.entries()) {
+    var key = pair[0];
+    var value = pair[1];
+
+    if (value === '') {
+      continue;
+    }
+    debugger
+  switch (key) {
+      case 'functional-inputs-comments':
+      functionalRequirements.push(value);
+        break;
+      case 'nonfunctional-inputs-comments':
+      nonfunctionalRequirements.push(value);
+        break;
+      case 'tech-limit-input-comments':
+      technicalLimitation.push(value);
+        break;
+        case 'requirementsCapturingCallDate':
+        jsonData['date'] = value;
+          break;
+        case 'hours':
+        jsonData['hours'] = value;
+        break;
+        case 'minutes':
+        // Append the value with ":" if "hours" is present
+        if (jsonData.hasOwnProperty('hours')) {
+          jsonData['time'] = jsonData['hours'] + ':' + value;
+        }
+        break;
+        case 'timezone':
+        
+        // Combine "hours" and "minutes" into a single string
+        if (!jsonData.hasOwnProperty('requirementsCapturingCallDateTime')) {
+          jsonData['requirementsCapturingCallDateTime'] = '';
+        }
+        
+        jsonData['requirementsCapturingCallDateTime'] = jsonData['date']+ " " + jsonData['time'] + " " +value;
+        delete  jsonData['hours'];
+        delete  jsonData['time'];
+        delete  jsonData['date'];
+        break;
+      
+      default:
+      jsonData[key] = value;
+        break;
+    }
+  }
+  debugger;
+  jsonData['functionalRequirements'] = functionalRequirements;
+  jsonData['nonfunctionalRequirements'] = nonfunctionalRequirements;
+  jsonData['technicalLimitation'] = technicalLimitation;
+
+  var jsonResult = JSON.stringify(jsonData);
+  console.log(jsonResult);
+  
+  var blob = new Blob([jsonResult], { type: 'application/json' });
+  var url = URL.createObjectURL(blob);
+
+  var link = document.createElement('a');
+  link.href = url;
+  link.download = 'form_data.json';
+  link.click();
+
+  // Clean up the URL object after the download
+  setTimeout(() => {
+    URL.revokeObjectURL(url);
+  }, 0);
+}
+var form = document.getElementById('myForm');
+form.addEventListener('submit', function(event) {
+  event.preventDefault();
+  submitForm();
+});
+
+const funcYesOption = document.getElementById("functionalReqYes");
+const funcNoOption = document.getElementById("functionalReqNo");
+const nonfuncYesOption = document.getElementById("nonfunctionalReqYes");
+const nonfuncNoOption = document.getElementById("nonfunctionalReqNo");
+const techlimitYesOption = document.getElementById("techlimitYes");
+const techlimitNoOption = document.getElementById("techlimitNo");
+
+
+    const functionaltext = document.getElementById("functional-inputs");
+    const nontextarea = document.getElementById("nonfunctional-inputs");
+    const techlimittext = document.getElementById("tech-limit-input");
+
+    // Add an event listener to the checkbox
+    funcYesOption.addEventListener("change", updateTextarea);
+    funcNoOption.addEventListener("change", updateTextarea);
+    nonfuncYesOption.addEventListener("change", updateTextarea);
+    nonfuncNoOption.addEventListener("change", updateTextarea);
+    techlimitYesOption.addEventListener("change", updateTextarea);
+    techlimitNoOption.addEventListener("change", updateTextarea);
+
+    function updateTextarea() {
+      if (funcYesOption.checked) {
+        functionaltext.style.display = "block";
+      } else if (funcNoOption.checked) {
+        functionaltext.style.display = "none";
+        functionaltext.querySelector('#functional-inputs-comments').value = "";
+      }
+
+      if (nonfuncYesOption.checked) {
+        nontextarea.style.display = "block";
+      } else if (nonfuncNoOption.checked) {
+        nontextarea.style.display = "none";
+        nontextarea.querySelector('#nonfunctional-inputs-comments').value = "";
+      }
+      if (techlimitYesOption.checked) {
+        techlimittext.style.display = "block";
+      } else if (techlimitNoOption.checked) {
+        techlimittext.style.display = "none";
+        techlimittext.querySelector('#tech-limit-input-comments').value = "";
+      }
+    }
+
+    </script>
+</body>
+</html>

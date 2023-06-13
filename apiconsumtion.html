@@ -1,0 +1,48 @@
+<!-- <!doctype html> -->
+<!-- <html> -->
+<!-- <head> -->
+  <!-- <title>api consumption</title> -->
+<!-- </head> -->
+<!-- <body> -->
+  <!-- <button onclick="fetchdata()">fetch api data</button> -->
+
+  <!-- <script> -->
+    <!-- function fetchdata() { -->
+      <!-- // make a get request to the api endpoint -->
+      <!-- fetch('https://api.publicapis.org/entries') -->
+        <!-- .then(response => response.json()) // parse the response as json -->
+        <!-- .then(data => { -->
+          <!-- console.log(data); // log the response data in the console -->
+        <!-- }) -->
+        <!-- .catch(error => { -->
+          <!-- console.error('error:', error); // log any errors that occur during the request -->
+        <!-- }); -->
+    <!-- } -->
+  <!-- </script> -->
+<!-- </body> -->
+<!-- </html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API Consumption</title>
+</head>
+<body>
+  <button onclick="fetchData()">Fetch API Data</button>
+
+  <script>
+    function fetchData() {
+      // Make a GET request to the API endpoint
+      fetch('http://localhost:9999/operations/bot/getMessages?email=test123@test.com')
+        .then(response => response.json()) // Parse the response as JSON
+        .then(data => {
+          console.log(data); // Log the response data in the console
+        })
+        .catch(error => {
+          console.error('Error:', error); // Log any errors that occur during the request
+        });
+    }
+  </script>
+</body>
+</html>
+
